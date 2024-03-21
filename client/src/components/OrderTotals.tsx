@@ -4,10 +4,11 @@ import { formatCurrency } from "../helpers"
 
 type OrderTotalsProps = {
     order: orderItem[],
-    tip: number
+    tip: number,
+    placeOrder: () => void
 }
 
-const OrderTotals = ({order, tip} : OrderTotalsProps) => {
+const OrderTotals = ({order, tip, placeOrder} : OrderTotalsProps) => {
 
     const subtotalAmout = useMemo(() => order.reduce((total, item)=> total + (item.quantity * item.price), 0), 
     [order])
@@ -28,7 +29,13 @@ const OrderTotals = ({order, tip} : OrderTotalsProps) => {
         <span className="font-bold">{formatCurrency(totalAmount)}</span>
       </p>
     </div>
-    <button></button>
+    <button className="w-full bg-black p-3 uppercase text-white 
+    font-bold mt-10 disabled:opacity-10"
+    disabled= {totalAmount === 0}
+    onClick={placeOrder}>
+
+        Guardar orden
+    </button>
     </>
   )
 }

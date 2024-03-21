@@ -4,13 +4,16 @@ import { menuItems } from "./data/db"
 import { useOrder } from "./hooks/useOrder"
 import OrderTotals from "./components/OrderTotals"
 import TipsPercentage from "./components/TipsPercentage"
+import Fondo from "../public/fondo2.avif"
+
 
 function App() {
 
-  const {order, addItem, removeItem, tip, setTip} = useOrder()
+  const {order, addItem, removeItem, tip, setTip, placeOrder} = useOrder()
 
   return (
-    <>
+    <div  className="bg-cover bg-no-repeat w-full h-full"
+    style={{ backgroundImage: `url(${Fondo})` }}>
      <header className="bg-teal-300 py-5">
       <h1 className="text-center text-4xl font-black">Calculadora de Propinas y Consumo</h1>
     </header>
@@ -29,19 +32,28 @@ function App() {
       </div>
       
       <div className="border border-slate-400 p-5 rounded-lg space-y-10">
-      <OrderContents
-      order={order}
-      removeItem= {removeItem}/>
-      <TipsPercentage
-      setTip= {setTip}/>
-      <OrderTotals
-      order={order}
-      tip={tip}/>
+        {order.length > 0 ?(
+          <>
+          <OrderContents
+          order={order}
+          removeItem= {removeItem}/>
+         <TipsPercentage
+         setTip= {setTip}
+         tip={tip}/>
+         <OrderTotals
+         order={order}
+         tip={tip}
+         placeOrder={placeOrder}/>
+      </>
+        ) : (
+          <p className="text-center">La orden esta vacia</p>
+        )}
+      
       </div>
 
       
     </main>
-    </>
+    </div>
   )
 }
 

@@ -19,11 +19,16 @@ const addItem = (item : MenuItem) => {
 const removeItem = (id : MenuItem['id']) => {
     setOrder(order.filter(item => item.id !== id))
 }
+const placeOrder = () => {
+   setOrder([])
+   setTip(0)
+}
 return{
  order,
  tip,
  setTip,
  addItem,
- removeItem
+ removeItem,
+ placeOrder
 }
 }
