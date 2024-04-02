@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch } from "react"
+import { OrderActions } from "../reducers/orderReducers"
 const tipOptions = [
     {
       id: 'tip-10',
@@ -17,12 +18,12 @@ const tipOptions = [
     },
   ]
   type TipsPercentageProps ={
-    setTip: Dispatch<SetStateAction<number>>,
+    dispatch: Dispatch<OrderActions>,
     tip: number
   }
 
 
-const TipsPercentage = ({setTip, tip} : TipsPercentageProps) => {
+const TipsPercentage = ({dispatch, tip} : TipsPercentageProps) => {
   return (
     <div>
       <h3 className="font-black text-2xl">Propina:</h3>
@@ -31,7 +32,7 @@ const TipsPercentage = ({setTip, tip} : TipsPercentageProps) => {
             <div key={tipOption.id} className="flex gap-2">
                 <label htmlFor={tipOption.id}>{tipOption.label}</label>
                 <input id={tipOption.id} type="radio" name="tip" value={tipOption.value} 
-                onChange={e => setTip(+e.target.value)}
+                onChange={e => dispatch({type: 'add-tip', payload: {value:+e.target.value}})}
                 checked={tipOption.value === tip}/>
             </div>
         ))}

@@ -1,15 +1,16 @@
 import MenuItem from "./components/MenuItem"
 import OrderContents from "./components/OrderContents"
 import { menuItems } from "./data/db"
-import { useOrder } from "./hooks/useOrder"
 import OrderTotals from "./components/OrderTotals"
 import TipsPercentage from "./components/TipsPercentage"
 import Fondo from "../public/fondo2.avif"
+import { useReducer } from "react"
+import { initialState, orderReducer } from "./reducers/orderReducers"
 
 
 function App() {
 
-  const {order, addItem, removeItem, tip, setTip, placeOrder} = useOrder()
+  const [state, dispatch] = useReducer(orderReducer, initialState)
 
   return (
     <div  className="bg-cover bg-no-repeat w-full h-full"
@@ -26,24 +27,24 @@ function App() {
         <MenuItem
         key={item.id}
         item={item}
-        addItem={addItem}/>
+        dispatch={dispatch}/>
       ))}
       </div>
       </div>
       
       <div className="border border-slate-400 p-5 rounded-lg space-y-10">
-        {order.length > 0 ?(
+        {state.order.length > 0 ?(
           <>
           <OrderContents
-          order={order}
-          removeItem= {removeItem}/>
+          order={state.order}
+          dispatch={dispatch}/>
          <TipsPercentage
-         setTip= {setTip}
-         tip={tip}/>
+         dispatch={dispatch}
+         tip={state.tip}/>
          <OrderTotals
-         order={order}
-         tip={tip}
-         placeOrder={placeOrder}/>
+         order={state.order}
+         tip={state.tip}
+         dispatch={dispatch}/>
       </>
         ) : (
           <p className="text-center">La orden esta vacia</p>
